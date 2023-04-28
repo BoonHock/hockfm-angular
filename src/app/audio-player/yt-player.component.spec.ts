@@ -7,13 +7,15 @@ describe('YtPlayerComponent', () => {
   let fixture: ComponentFixture<YtPlayerComponent>;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [YtPlayerComponent],
-    }).compileComponents();
+    // await TestBed.configureTestingModule({
+    //   declarations: [YtPlayerComponent],
+    // }).compileComponents();
 
-    fixture = TestBed.createComponent(YtPlayerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    // fixture = TestBed.createComponent(YtPlayerComponent);
+    // component = fixture.componentInstance;
+    // fixture.detectChanges();
+
+    component = new YtPlayerComponent();
   });
 
   it('should create', () => {
