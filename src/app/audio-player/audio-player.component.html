@@ -1,0 +1,32 @@
+<!-- <p>audio-player works!</p> -->
+<div class="container-fluid player-container p-2">
+  <table>
+    <tbody>
+      <tr>
+        <td>
+          <audio class="player" #audioUserMusic [ngClass]="audioElemToPlay === audioUserMusic? '':'d-none'" id="audio_user_music"
+            (ended)="onAudioEnded()" controls></audio>
+          <audio class="player audio_podcast" preload="auto" #audio1 [ngClass]="audioElemToPlay === audio1? '':'d-none'" id="audio_1"
+            (ended)="onAudioEnded()" controls></audio>
+          <audio class="player audio_podcast" preload="auto" #audio2 [ngClass]="audioElemToPlay === audio2? '':'d-none'" id="audio_2"
+            (ended)="onAudioEnded()" controls></audio>
+        </td>
+        <td class="td-button">
+          <button class="btn btn-info btn-sm" type="button" (click)="onPlayClicked()">
+            <i class="material-icons">play_arrow</i>
+          </button>
+        </td>
+        <td class="td-button">
+          <button class="btn btn-info btn-sm" type="button" (click)="onPauseClicked()">
+            <i class="material-icons">pause</i>
+          </button>
+        </td>
+        <td class="td-button">
+          <button class="btn btn-info btn-sm" type="button" (click)="onNextClicked()">
+            <i class="material-icons">skip_next</i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

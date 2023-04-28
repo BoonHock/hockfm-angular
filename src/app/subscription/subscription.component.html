@@ -1,0 +1,37 @@
+<div class="container pt-3">
+  <div class="row" *ngIf="form.submitted">
+    <div class="col-12">
+      <div class="alert alert-warning" role="alert" *ngIf="!formResponseReceived">
+        Submitting...
+      </div>
+      <div class="alert alert-danger" role="alert" *ngIf="formResponseReceived && !saveSuccess">
+        Subscription failed to save. Error message: {{ saveFailErrorMsg }}
+      </div>
+      <div class="alert alert-success" role="alert" *ngIf="formResponseReceived && saveSuccess">
+        Subscription saved.
+      </div>
+    </div>
+  </div>
+  <div class="col-12">
+    <div class="row">
+      <form #form="ngForm" (submit)="onSubmit()">
+        <button class="btn btn-success" type="submit" value="1">Save</button>
+        <div class="form-group form-check" *ngFor="let sg of subscriptionGrouped">
+          <label class="form-check-label">
+            <input #channelCb class="form-check-input" type="checkbox" [checked]="isChannelFullSubscribed(sg)"
+              (change)="onChannelCheckChange(channelCb.checked, sg)">
+            {{ sg.channel_name }}
+          </label>
+          <div class="form-check" *ngFor="let playlist of sg.playlists">
+            <label class="form-check-label">
+              <input class="form-check-input" type="checkbox" [name]="'p-' + playlist.playlist"
+                [(ngModel)]="playlist.b_is_subscribed">{{ playlist.playlist_name }}
+              <br>
+              <small>{{ playlist.description }}</small>
+            </label>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

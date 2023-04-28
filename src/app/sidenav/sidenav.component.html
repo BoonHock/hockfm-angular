@@ -1,0 +1,24 @@
+<mat-drawer-container class="sidenav-container" autosize>
+  <mat-drawer #drawer [mode]="isSmallScreen? 'over' : 'side'" [opened]="!isSmallScreen" class="mat-elevation-z6">
+    <mat-toolbar color="primary">
+      <img src="/assets/images/penis.png" class="sidenav-toolbar-logo">
+    </mat-toolbar>
+    <div class="sidenav">
+      <mat-nav-list>
+        <a mat-list-item routerLink="/" (click)="onLinkClick()">Home</a>
+        <a mat-list-item routerLink="/subscription" (click)="onLinkClick()">Subscription</a>
+      </mat-nav-list>
+      <!-- <mat-list role="list">
+        <mat-list-item role="listitem"><a routerLink="" (click)="onLinkClick()">Home</a></mat-list-item>
+        <mat-list-item role="listitem"><a routerLink="/subscription" (click)="onLinkClick()">Subscription</a>
+        </mat-list-item>
+      </mat-list> -->
+    </div>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="sidenav-content">
+      <hfm-toolbar [displayToolbarMenu]="isSmallScreen" (toggleClicked)="drawer.toggle()"></hfm-toolbar>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-drawer-content>
+</mat-drawer-container>

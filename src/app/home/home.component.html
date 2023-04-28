@@ -1,0 +1,221 @@
+<div class="container full-window-height">
+  <div class="row">
+    <div class="col-12">
+      <h1>
+        Why listen to someone else's shit when you can listen to your own shit?
+      </h1>
+    </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-12">
+      <mat-tab-group
+        dynamicHeight="true"
+        [selectedIndex]="isYt_MatTabActive ? 1 : 0"
+        preserveContent="true"
+        (selectedTabChange)="onSelectedTabChange(Yt_MatTab.isActive)"
+      >
+        <mat-tab label="File">
+          <div class="p-3">
+            <div class="row">
+              <div class="col-12">
+                <label class="btn btn-warning text-white" for="file_input"
+                  >Upload your music</label
+                >
+                <input
+                  type="file"
+                  id="file_input"
+                  accept=".mp3"
+                  multiple
+                  hidden
+                  (change)="onFileInputChange($event)"
+                />
+                <p
+                  *ngIf="
+                    uploadedSongs !== undefined && uploadedSongs.length > 0
+                  "
+                >
+                  {{ uploadedSongs.length }} songs uploaded
+                </p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <div class="col-12">
+                  <button
+                    class="btn btn-success my-1"
+                    type="button"
+                    (click)="onFileStartBtnClick()"
+                  >
+                    Start
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+        <mat-tab label="Youtube" #Yt_MatTab>
+          <div class="p-3">
+            <div class="form">
+              <div class="row">
+                <div class="col-lg-2 col-12">
+                  <label for="youtube_playlist_input">Youtube playlist:</label
+                  >&nbsp;&nbsp;
+                </div>
+                <div class="col-lg-10 col-12">
+                  <input
+                    class="form-control"
+                    type="text"
+                    id="youtube_playlist_input"
+                    [(ngModel)]="ytUrl"
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <button
+                    class="btn btn-success my-1"
+                    type="button"
+                    (click)="onYtStartBtnClick()"
+                  >
+                    Start
+                  </button>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <!-- <ng-template hfm-yt-player></ng-template> -->
+                  <hfm-yt-player
+                    [ytPlayBtnClicked]="ytPlayEmit"
+                    [ytPlayVid]="ytPlayVidEmit"
+                    [stopAllSound]="stopAllSoundEmit"
+                    [ytNextVid]="ytNextVidEmit"
+                    (isYtPlayerCreatedEmit)="onYtPlayerCreated($event)"
+                    (ytEndedEmit)="onYtEndedEmit()"
+                  ></hfm-yt-player>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th>Station</th>
+              <th>Category</th>
+              <th>Title</th>
+              <th>Date</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr
+              *ngFor="let podcast of podcasts; let podcastIndex = index"
+              [ngClass]="{
+                'bg-warning':
+                  currentPlaying === playType.podcast &&
+                  currentPodcastIndex === podcastIndex,
+                listened:
+                  podcast.status === podcastStatus.listened &&
+                  (currentPodcastIndex !== podcastIndex ||
+                    currentPlaying !== playType.podcast),
+                skipped:
+                  podcast.status === podcastStatus.skipped &&
+                  (currentPodcastIndex !== podcastIndex ||
+                    currentPlaying !== playType.podcast)
+              }"
+              [attr.data-url]="podcast.url"
+            >
+              <td>{{ podcast.playlist.channel.name }}</td>
+              <td>{{ podcast.playlist.title }}</td>
+              <td>
+                <p>
+                  <a
+                    class="podcast-title-link"
+                    [routerLink]="['/podcasts', podcast.podcastId]"
+                    target="_blank"
+                    >{{ podcast.title }}</a
+                  >
+                </p>
+                <small>{{ podcast.description }}</small>
+              </td>
+              <td>{{ podcast.date | convertDbDate }}</td>
+              <td>
+                <span
+                  class="action-icon"
+                  (click)="onRowPlayBtnClicked(podcastIndex)"
+                  title="play"
+                >
+                  <mat-icon>play_circle</mat-icon>
+                </span>
+                <span
+                  class="action-icon"
+                  title="reset"
+                  *ngIf="podcast.status === podcastStatus.listened"
+                  (click)="onResetBtnClicked(podcastIndex)"
+                >
+                  <mat-icon>replay_circle_filled</mat-icon>
+                </span>
+                <span
+                  class="action-icon"
+                  title="set listened"
+                  *ngIf="podcast.status !== podcastStatus.listened"
+                  (click)="onRowListenedBtnClick(podcastIndex)"
+                >
+                  <mat-icon>check_circle</mat-icon>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12 text-center">
+      <mat-spinner
+        class="load-podcast-spinner"
+        [diameter]="40"
+        *ngIf="isLoadingPodcast"
+      ></mat-spinner>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      Icons made by
+      <a href="https://www.flaticon.com/authors/freepik" title="Freepik"
+        >Freepik</a
+      >
+      from
+      <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
+    </div>
+  </div>
+</div>
+<div class="mat-fab-container" *ngIf="currentPodcastIndex > -1">
+  <button
+    class="mat-fab"
+    mat-fab
+    color="warn"
+    (click)="onScrollToPodcastClicked()"
+  >
+    <mat-icon>play_for_work</mat-icon>
+  </button>
+</div>
+<hfm-audio-player
+  class="audio-player"
+  [playPodcast]="audioPlayPodcastEmit"
+  [playUserMusic]="audioPlayUserMusicEmit"
+  [audioPlay]="audioPlayEmit"
+  [stopAllSound]="stopAllSoundEmit"
+  [preloadPodcastOb]="preloadPodcastEmit"
+  (pauseClickedEmit)="onPauseClicked()"
+  (playClickedEmit)="onPlayBtnClicked()"
+  (nextClickedEmit)="onNextClicked()"
+  (audioEndedEmit)="onAudioEnded()"
+>
+</hfm-audio-player>

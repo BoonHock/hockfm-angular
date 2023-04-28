@@ -1,0 +1,44 @@
+:host,
+.full-window-height {
+  min-height: 100%;
+}
+
+.podcast-title-link {
+  color: black;
+}
+
+.listened {
+  background-color: #67f889;
+}
+
+.skipped {
+  background-color: #dc3545;
+}
+
+.action-icon {
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.action-icon:hover {
+  color: #28a745;
+}
+
+.load-podcast-spinner {
+  display: inline-block;
+}
+
+.audio-player {
+  position: sticky;
+  // position: fixed;
+  width: 100%;
+  z-index: 999;
+  bottom: 0;
+}
+
+.mat-fab-container {
+  position: sticky;
+  bottom: 80px;
+  text-align: right;
+  padding: 1em;
+}
