@@ -59,16 +59,14 @@ export class AudioPlayerComponent implements OnDestroy, OnInit {
       } else {
         this.audioElemToPlay = this.audioElem1;
         this.audioElemToPlay.src = podcast.url;
-        this.audioElemToPlay.pause();
+        this.pauseAudio();
       }
 
       // this.preloadPodcast(next); // preload next podcast
-      this.audioElemToPlay.play();
+      this.playAudio();
     });
 
-    this.audioPlaySub = this.audioPlay.subscribe(() =>
-      this.audioElemToPlay.play()
-    );
+    this.audioPlaySub = this.audioPlay.subscribe(() => this.playAudio());
 
     this.preloadPodcastSub = this.preloadPodcastOb.subscribe((podcast) =>
       this.preloadPodcast(podcast)
@@ -83,7 +81,7 @@ export class AudioPlayerComponent implements OnDestroy, OnInit {
     this.playUserMusicSub = this.playUserMusic.subscribe((url) => {
       this.audioElemToPlay = this.audioUserMusicElem;
       this.audioUserMusicElem.src = url;
-      this.audioUserMusicElem.play();
+      this.playUserMusicAudio();
     });
   }
 
@@ -109,6 +107,18 @@ export class AudioPlayerComponent implements OnDestroy, OnInit {
 
   onAudioEnded(): void {
     this.audioEndedEmit.emit();
+  }
+
+  playAudio(): void {
+    this.audioElemToPlay.play();
+  }
+
+  pauseAudio(): void {
+    this.audioElemToPlay.pause();
+  }
+
+  playUserMusicAudio(): void {
+    this.audioUserMusicElem.play();
   }
 
   preloadPodcast(podcast: IPodcast): void {
