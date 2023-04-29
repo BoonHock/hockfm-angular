@@ -4,17 +4,8 @@ import { YtPlayerComponent } from './yt-player.component';
 
 describe('YtPlayerComponent', () => {
   let component: YtPlayerComponent;
-  let fixture: ComponentFixture<YtPlayerComponent>;
 
   beforeEach(async () => {
-    // await TestBed.configureTestingModule({
-    //   declarations: [YtPlayerComponent],
-    // }).compileComponents();
-
-    // fixture = TestBed.createComponent(YtPlayerComponent);
-    // component = fixture.componentInstance;
-    // fixture.detectChanges();
-
     component = new YtPlayerComponent();
   });
 
