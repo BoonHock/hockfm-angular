@@ -6,7 +6,6 @@ import { ChangeDetectorRef, ElementRef, DebugElement } from '@angular/core';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
-import { NO_ERRORS_SCHEMA } from '@angular/compiler';
 import { MaterialModule } from '../shared/material/material.module';
 import { FormsModule } from '@angular/forms';
 import { YtPlayerComponent } from '../audio-player/yt-player.component';
