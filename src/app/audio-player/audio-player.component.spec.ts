@@ -97,4 +97,54 @@ describe('AudioPlayerComponent', () => {
       fixture.debugElement.query(By.css(`#audio_user_music`))
     ).toBeTruthy();
   });
+
+  describe('clicking audio buttons', () => {
+    it('should call onPlayClicked when play button clicked', () => {
+      spyOn(component, 'onPlayClicked');
+
+      const playButton = fixture.debugElement.query(By.css(`#play_button`));
+      playButton.triggerEventHandler('click', null);
+      fixture.detectChanges();
+
+      expect(component.onPlayClicked).toHaveBeenCalled();
+    });
+
+    it('should call onPauseClicked when pause button clicked', () => {
+      spyOn(component, 'onPauseClicked');
+
+      const pauseButton = fixture.debugElement.query(By.css(`#pause_button`));
+      pauseButton.triggerEventHandler('click', null);
+      fixture.detectChanges();
+
+      expect(component.onPauseClicked).toHaveBeenCalled();
+    });
+
+    it('should call onNextClicked when next button clicked', () => {
+      spyOn(component, 'onNextClicked');
+
+      const nextButton = fixture.debugElement.query(By.css(`#next_button`));
+      nextButton.triggerEventHandler('click', null);
+      fixture.detectChanges();
+
+      expect(component.onNextClicked).toHaveBeenCalled();
+    });
+  });
+
+  // emit from parent component to check if audio tag is correct
+  // describe('display audio tag', () => {
+  //   it('should display user music audio tag', () => {
+  //     // change audioElemToPlay
+  //     // and see if has d-none class
+  //   });
+
+  //   it('should display audio1 audio tag', () => {
+  //     // change audioElemToPlay
+  //     // and see if has d-none class
+  //   });
+
+  //   it('should display audio2 audio tag', () => {
+  //     // change audioElemToPlay
+  //     // and see if has d-none class
+  //   });
+  // });
 });
