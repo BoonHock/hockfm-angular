@@ -6,7 +6,7 @@ let port = 3000;
 export const environment = {
   port: port,
   production: false,
-  serverUrl: `http://localhost:${port}`
+  serverUrl: `http://localhost:${port}`,
 };
 
 /*
