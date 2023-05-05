@@ -14,7 +14,6 @@ declare global {
     // trustedTypes: any,
     // onYTReady: any,
     YT: any;
-    onYouTubeIframeAPIReady: any;
   }
 }
 
@@ -44,7 +43,7 @@ export class YtPlayerComponent implements OnInit, OnDestroy {
   private player: any;
   private ytPlaylistIndex = 0;
 
-  constructor(public ytRootElem: ElementRef) {}
+  constructor() {}
 
   ngOnInit(): void {
     let yt_script = document.createElement('script');

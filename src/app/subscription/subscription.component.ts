@@ -20,11 +20,28 @@ export class SubscriptionComponent implements OnInit, OnDestroy {
   constructor(private subscriptionService: SubscriptionService) {}
 
   ngOnInit(): void {
+    this.getSubscriptions();
+  }
+
+  getSubscriptions(retries?: number): void {
+    const currentTryCount = retries ? retries + 1 : 1;
+
     this.sub = this.subscriptionService.getSubscriptions().subscribe({
       next: (subs) => {
         this.subscriptionGrouped = subs;
       },
-      error: (err) => console.error(err),
+      error: (err) => {
+        if (currentTryCount >= 10) {
+          console.error(
+            `Failed to get subscriptions: ${err}. Max retries reached.`
+          );
+        } else {
+          console.error(
+            `Failed to get subscriptions: ${err}. Will retry again now.`
+          );
+          this.getSubscriptions(currentTryCount);
+        }
+      },
     });
   }
 
