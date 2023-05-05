@@ -123,6 +123,41 @@ describe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('podcast row', () => {
+    it('should have 2 rows', () => {
+      const podcastTr = fixture.debugElement.queryAll(
+        By.css('#podcast_table tbody > tr')
+      );
+
+      expect(podcastTr.length).toEqual(2);
+    });
+
+    it('should display channel name', () => {
+      const podcastTr = fixture.debugElement.queryAll(
+        By.css('#podcast_table tbody > tr')
+      );
+
+      expect(
+        podcastTr[0].queryAll(By.css('td'))[0].nativeElement.textContent
+      ).toContain(PODCASTS[0].playlist.channel.name);
+    });
+
+    it('should call onRowPlayBtnClicked with correct podcastIndex', () => {
+      spyOn(component, 'onRowPlayBtnClicked');
+
+      const playBtn = fixture.debugElement.queryAll(
+        By.css('#podcast_table tbody > tr span[title="play"]')
+      );
+
+      for (let i = 0; i < playBtn.length; i++) {
+        playBtn[i].triggerEventHandler('click', null);
+        expect(component.onRowPlayBtnClicked).toHaveBeenCalledWith(i);
+      }
+    });
+
+    // skip checks for other stuffs because I am lazy
+  });
+
   describe('audio player component', () => {
     it('should display user audio tag only', () => {
       component.audioPlayUserMusicEmit.emit(PLAY_USER_MUSIC);
