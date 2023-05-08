@@ -2,7 +2,14 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
 import { PodcastsService } from '../podcasts/podcast.service';
-import { ChangeDetectorRef, ElementRef, DebugElement } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  ElementRef,
+  DebugElement,
+  Directive,
+  Input,
+  HostListener,
+} from '@angular/core';
 import { ScrollDispatcher } from '@angular/cdk/scrolling';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { of } from 'rxjs';
@@ -13,8 +20,21 @@ import { AudioPlayerComponent } from '../audio-player/audio-player.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PodcastStatus } from '../shared/enum/podcast-status';
 import { ConvertDbDatePipe } from '../shared/pipes/convert-db-date.pipe';
-import { AppRoutingModule } from '../app-routing.module';
 import { By } from '@angular/platform-browser';
+
+@Directive({
+  selector: '[routerLink]',
+  // host: { '(click)': 'onClick()' }, // this works too besides @HostListener
+})
+export class RouterLinkDirectiveStub {
+  @Input('routerLink') linkParams: any;
+  navigatedTo: any = null;
+
+  @HostListener('click')
+  onClick() {
+    this.navigatedTo = this.linkParams;
+  }
+}
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -78,9 +98,9 @@ describe('HomeComponent', () => {
         YtPlayerComponent,
         AudioPlayerComponent,
         ConvertDbDatePipe,
+        RouterLinkDirectiveStub,
       ],
       imports: [
-        AppRoutingModule,
         BrowserAnimationsModule,
         MaterialModule,
         FormsModule,
@@ -140,6 +160,22 @@ describe('HomeComponent', () => {
       expect(
         podcastTr[0].queryAll(By.css('td'))[0].nativeElement.textContent
       ).toContain(PODCASTS[0].playlist.channel.name);
+    });
+
+    it('should have the right routerLink url', () => {
+      const podcastTr = fixture.debugElement.queryAll(
+        By.css('#podcast_table tbody > tr')
+      );
+
+      const routerLink = podcastTr[0]
+        .query(By.directive(RouterLinkDirectiveStub))
+        .injector.get(RouterLinkDirectiveStub);
+
+      podcastTr[0].query(By.css('a')).triggerEventHandler('click', null);
+      expect(routerLink.navigatedTo).toEqual([
+        '/podcasts',
+        PODCASTS[0].podcastId,
+      ]);
     });
 
     it('should call onRowPlayBtnClicked with correct podcastIndex', () => {
