@@ -1,9 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { SubscriptionService } from './subscription.service';
 import { environment } from 'src/environments/environment';
 import { ISubscription } from './subscription';
@@ -56,13 +53,9 @@ describe('SubscriptionService', () => {
   });
 
   it('should get subscriptions', () => {
-    service
-      .getSubscriptions()
-      .subscribe((data) => expect(data).toEqual(SUBSCRIPTION_GROUPED));
+    service.getSubscriptions().subscribe((data) => expect(data).toEqual(SUBSCRIPTION_GROUPED));
 
-    const req = httpTestingController.expectOne(
-      `${environment.serverUrl}/subscription`
-    );
+    const req = httpTestingController.expectOne(`${environment.serverUrl}/subscription`);
 
     req.flush(SUBSCRIPTIONS);
     httpTestingController.verify();
@@ -73,9 +66,7 @@ describe('SubscriptionService', () => {
   it('should post subscription', () => {
     service.subscribePlaylists([]).subscribe();
 
-    const req = httpTestingController.expectOne(
-      `${environment.serverUrl}/subscription`
-    );
+    const req = httpTestingController.expectOne(`${environment.serverUrl}/subscription`);
 
     expect(req.request.method).toEqual('POST');
     req.flush('OK');

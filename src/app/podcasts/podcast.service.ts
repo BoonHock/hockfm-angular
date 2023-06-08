@@ -1,8 +1,4 @@
-import {
-  HttpClient,
-  HttpErrorResponse,
-  HttpHeaders,
-} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -22,26 +18,24 @@ export class PodcastsService {
    * since they are arrange from latest to earliest, so will load earlier podcasts
    *  */
   getPodcastsToListen(loadMore?: number): Observable<IPodcast[]> {
-    return this.http
-      .get<IPodcast[]>(`${this.serverUrl}/podcasts?load_more=${loadMore}`)
-      .pipe(
-        map((data) => {
-          return data.map((podcast) => {
-            switch (podcast.status) {
-              case 1:
-                podcast.status = PodcastStatus.listened;
-                break;
-              case 2:
-                podcast.status = PodcastStatus.skipped;
-                break;
-              default:
-                podcast.status = PodcastStatus.none;
-            }
-            return podcast;
-          });
-        }),
-        catchError(this.handleError)
-      );
+    return this.http.get<IPodcast[]>(`${this.serverUrl}/podcasts?load_more=${loadMore}`).pipe(
+      map((data) => {
+        return data.map((podcast) => {
+          switch (podcast.status) {
+            case 1:
+              podcast.status = PodcastStatus.listened;
+              break;
+            case 2:
+              podcast.status = PodcastStatus.skipped;
+              break;
+            default:
+              podcast.status = PodcastStatus.none;
+          }
+          return podcast;
+        });
+      }),
+      catchError(this.handleError),
+    );
   }
 
   getPodcastToListen(podcastId: number): Observable<IPodcast | null> {
@@ -50,10 +44,7 @@ export class PodcastsService {
       .pipe(catchError(this.handleError));
   }
 
-  updatePodcastStatus(
-    podcastId: number,
-    status: PodcastStatus
-  ): Observable<string> {
+  updatePodcastStatus(podcastId: number, status: PodcastStatus): Observable<string> {
     return this.http
       .put(
         `${this.serverUrl}/podcasts/${podcastId}/status`,
@@ -61,7 +52,7 @@ export class PodcastsService {
         {
           headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
           responseType: 'text',
-        }
+        },
       )
       .pipe(catchError(this.handleError));
   }

@@ -83,10 +83,7 @@ describe('HomeComponent', () => {
   ];
 
   beforeEach(async () => {
-    mockPodcastService = jasmine.createSpyObj([
-      'updatePodcastStatus',
-      'getPodcastsToListen',
-    ]);
+    mockPodcastService = jasmine.createSpyObj(['updatePodcastStatus', 'getPodcastsToListen']);
     mockElementRef = jasmine.createSpyObj(['nativeElement']);
     mockScrollDispatcher = jasmine.createSpyObj(['scrolled']);
     mockCdRef = jasmine.createSpyObj(['detectChanges']);
@@ -100,11 +97,7 @@ describe('HomeComponent', () => {
         ConvertDbDatePipe,
         RouterLinkDirectiveStub,
       ],
-      imports: [
-        BrowserAnimationsModule,
-        MaterialModule,
-        FormsModule,
-      ],
+      imports: [BrowserAnimationsModule, MaterialModule, FormsModule],
       providers: [
         { provide: PodcastsService, useValue: mockPodcastService },
         { provide: ElementRef, useValue: mockElementRef },
@@ -121,14 +114,10 @@ describe('HomeComponent', () => {
     // ignore this function
     spyOn(component, 'detectInfiniteScroll');
 
-    audioPlayerDE = fixture.debugElement.query(
-      By.directive(AudioPlayerComponent)
-    );
+    audioPlayerDE = fixture.debugElement.query(By.directive(AudioPlayerComponent));
 
     audioPlayerComponent = audioPlayerDE.componentInstance;
-    audioUserMusicElem = audioPlayerDE.query(
-      By.css('#audio_user_music')
-    ).nativeElement;
+    audioUserMusicElem = audioPlayerDE.query(By.css('#audio_user_music')).nativeElement;
     audio1Elem = audioPlayerDE.query(By.css('#audio_1')).nativeElement;
     audio2Elem = audioPlayerDE.query(By.css('#audio_2')).nativeElement;
 
@@ -145,44 +134,35 @@ describe('HomeComponent', () => {
 
   describe('podcast row', () => {
     it('should have 2 rows', () => {
-      const podcastTr = fixture.debugElement.queryAll(
-        By.css('#podcast_table tbody > tr')
-      );
+      const podcastTr = fixture.debugElement.queryAll(By.css('#podcast_table tbody > tr'));
 
       expect(podcastTr.length).toEqual(2);
     });
 
     it('should display channel name', () => {
-      const podcastTr = fixture.debugElement.queryAll(
-        By.css('#podcast_table tbody > tr')
-      );
+      const podcastTr = fixture.debugElement.queryAll(By.css('#podcast_table tbody > tr'));
 
-      expect(
-        podcastTr[0].queryAll(By.css('td'))[0].nativeElement.textContent
-      ).toContain(PODCASTS[0].playlist.channel.name);
+      expect(podcastTr[0].queryAll(By.css('td'))[0].nativeElement.textContent).toContain(
+        PODCASTS[0].playlist.channel.name,
+      );
     });
 
     it('should have the right routerLink url', () => {
-      const podcastTr = fixture.debugElement.queryAll(
-        By.css('#podcast_table tbody > tr')
-      );
+      const podcastTr = fixture.debugElement.queryAll(By.css('#podcast_table tbody > tr'));
 
       const routerLink = podcastTr[0]
         .query(By.directive(RouterLinkDirectiveStub))
         .injector.get(RouterLinkDirectiveStub);
 
       podcastTr[0].query(By.css('a')).triggerEventHandler('click', null);
-      expect(routerLink.navigatedTo).toEqual([
-        '/podcasts',
-        PODCASTS[0].podcastId,
-      ]);
+      expect(routerLink.navigatedTo).toEqual(['/podcasts', PODCASTS[0].podcastId]);
     });
 
     it('should call onRowPlayBtnClicked with correct podcastIndex', () => {
       spyOn(component, 'onRowPlayBtnClicked');
 
       const playBtn = fixture.debugElement.queryAll(
-        By.css('#podcast_table tbody > tr span[title="play"]')
+        By.css('#podcast_table tbody > tr span[title="play"]'),
       );
 
       for (let i = 0; i < playBtn.length; i++) {
