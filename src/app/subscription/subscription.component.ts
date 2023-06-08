@@ -32,13 +32,9 @@ export class SubscriptionComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         if (currentTryCount >= 10) {
-          console.error(
-            `Failed to get subscriptions: ${err}. Max retries reached.`
-          );
+          console.error(`Failed to get subscriptions: ${err}. Max retries reached.`);
         } else {
-          console.error(
-            `Failed to get subscriptions: ${err}. Will retry again now.`
-          );
+          console.error(`Failed to get subscriptions: ${err}. Will retry again now.`);
           this.getSubscriptions(currentTryCount);
         }
       },
@@ -77,9 +73,6 @@ export class SubscriptionComponent implements OnInit, OnDestroy {
   }
 
   isChannelFullSubscribed(subGrouped: ISubscriptionGrouped): boolean {
-    return (
-      subGrouped.playlists.find((obj) => obj.b_is_subscribed === false) ===
-      undefined
-    );
+    return subGrouped.playlists.find((obj) => obj.b_is_subscribed === false) === undefined;
   }
 }

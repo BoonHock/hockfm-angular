@@ -74,22 +74,20 @@ describe('PodcastDetailComponent', () => {
     // );
 
     // DebugElement method
-    expect(
-      fixture.debugElement.query(By.css('h2')).nativeElement.textContent
-    ).toContain('title none');
+    expect(fixture.debugElement.query(By.css('h2')).nativeElement.textContent).toContain(
+      'title none',
+    );
   });
 
   it('should render channel name in p.lead', () => {
-    expect(
-      fixture.debugElement.query(By.css('p.lead')).nativeElement.textContent
-    ).toContain('channel name');
+    expect(fixture.debugElement.query(By.css('p.lead')).nativeElement.textContent).toContain(
+      'channel name',
+    );
   });
 
   it('should render podcast url in audio tag', () => {
-    expect(
-      fixture.debugElement.query(By.css('audio')).nativeElement.src
-    ).toContain(
-      'https://megaphone-prod.s3.amazonaws.com/podcasts/94081b56-c88a-11ed-8e38-1b845169ba6e/episodes/5aa25130-e4b7-11ed-87e6-ffc03737b938/stripped_06ebb33430fb024742036683600d2f6a.mp3'
+    expect(fixture.debugElement.query(By.css('audio')).nativeElement.src).toContain(
+      'https://megaphone-prod.s3.amazonaws.com/podcasts/94081b56-c88a-11ed-8e38-1b845169ba6e/episodes/5aa25130-e4b7-11ed-87e6-ffc03737b938/stripped_06ebb33430fb024742036683600d2f6a.mp3',
     );
   });
 });

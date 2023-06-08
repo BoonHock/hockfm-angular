@@ -67,9 +67,7 @@ export class YtPlayerComponent implements OnInit, OnDestroy {
 
     this.ytNextSub = this.ytNextVid.subscribe(() => this.player?.nextVideo());
 
-    this.stopAllSoundSub = this.stopAllSound.subscribe(() =>
-      this.player?.pauseVideo()
-    );
+    this.stopAllSoundSub = this.stopAllSound.subscribe(() => this.player?.pauseVideo());
   }
 
   ngOnDestroy(): void {

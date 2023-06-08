@@ -1,10 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { PodcastsService } from './podcast.service';
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { IPodcast } from './podcast';
 import { PodcastStatus } from '../shared/enum/podcast-status';
 import { environment } from 'src/environments/environment';
@@ -60,7 +57,7 @@ describe('PodcastsService', () => {
     service.getPodcastsToListen(loadMore).subscribe();
 
     const req = httpTestingController.expectOne(
-      `${environment.serverUrl}/podcasts?load_more=${loadMore}`
+      `${environment.serverUrl}/podcasts?load_more=${loadMore}`,
     );
 
     req.flush(PODCASTS);
@@ -73,9 +70,7 @@ describe('PodcastsService', () => {
     const podcastId: number = 1;
     service.getPodcastToListen(podcastId).subscribe();
 
-    const req = httpTestingController.expectOne(
-      `${environment.serverUrl}/podcasts/${podcastId}`
-    );
+    const req = httpTestingController.expectOne(`${environment.serverUrl}/podcasts/${podcastId}`);
 
     req.flush(PODCASTS[0]);
     httpTestingController.verify();
@@ -89,7 +84,7 @@ describe('PodcastsService', () => {
     service.updatePodcastStatus(podcastId, status).subscribe();
 
     const req = httpTestingController.expectOne(
-      `${environment.serverUrl}/podcasts/${podcastId}/status`
+      `${environment.serverUrl}/podcasts/${podcastId}/status`,
     );
 
     req.flush({});

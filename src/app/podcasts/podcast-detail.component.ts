@@ -17,7 +17,7 @@ export class PodcastDetailComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private podcastService: PodcastsService,
-    private router: Router
+    private router: Router,
   ) {}
 
   ngOnInit(): void {

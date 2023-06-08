@@ -43,23 +43,16 @@ describe('SubscriptionComponent', () => {
   ];
 
   beforeEach(async () => {
-    mockSubscriptionService = jasmine.createSpyObj([
-      'getSubscriptions',
-      'subscribePlaylists',
-    ]);
+    mockSubscriptionService = jasmine.createSpyObj(['getSubscriptions', 'subscribePlaylists']);
     await TestBed.configureTestingModule({
       declarations: [SubscriptionComponent],
-      providers: [
-        { provide: SubscriptionService, useValue: mockSubscriptionService },
-      ],
+      providers: [{ provide: SubscriptionService, useValue: mockSubscriptionService }],
       imports: [FormsModule],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SubscriptionComponent);
     component = fixture.componentInstance;
-    mockSubscriptionService.getSubscriptions.and.returnValue(
-      of(SUBSCRIPTION_GROUPED)
-    );
+    mockSubscriptionService.getSubscriptions.and.returnValue(of(SUBSCRIPTION_GROUPED));
 
     fixture.detectChanges();
   });
@@ -74,7 +67,7 @@ describe('SubscriptionComponent', () => {
 
   it('should have 2 playlist checkboxes', () => {
     const checkboxes = fixture.debugElement.queryAll(
-      By.css('form > div.form-group div.form-check input')
+      By.css('form > div.form-group div.form-check input'),
     );
 
     expect(checkboxes.length).toBe(2);
@@ -83,7 +76,7 @@ describe('SubscriptionComponent', () => {
   it('channel checkbox should be checked', () => {
     // check all playlist checkboxes
     const playlistCbs = fixture.debugElement.queryAll(
-      By.css('form > div.form-group div.form-check input')
+      By.css('form > div.form-group div.form-check input'),
     );
 
     playlistCbs.forEach((cb) => {
@@ -93,7 +86,7 @@ describe('SubscriptionComponent', () => {
 
     // check if channel input is checked
     const channelCb = fixture.debugElement.query(
-      By.css('form > div.form-group > label.form-check-label input')
+      By.css('form > div.form-group > label.form-check-label input'),
     );
 
     fixture.detectChanges();
@@ -103,7 +96,7 @@ describe('SubscriptionComponent', () => {
   it('should get channel not fully subscribed', () => {
     // uncheck any playlist checkboxes
     const playlistCbs = fixture.debugElement.queryAll(
-      By.css('form > div.form-group div.form-check input')
+      By.css('form > div.form-group div.form-check input'),
     );
 
     playlistCbs[0].nativeElement.checked = false;
@@ -111,7 +104,7 @@ describe('SubscriptionComponent', () => {
 
     // check if channel input is not checked
     const channelCb = fixture.debugElement.query(
-      By.css('form > div.form-group > label.form-check-label input')
+      By.css('form > div.form-group > label.form-check-label input'),
     );
     fixture.detectChanges();
     expect(channelCb.nativeElement.checked).toBe(false);

@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 import { IPodcast } from '../podcasts/podcast';
 
@@ -41,9 +34,7 @@ export class AudioPlayerComponent implements OnDestroy, OnInit {
   constructor() {}
 
   ngOnInit(): void {
-    this.audioUserMusicElem = document.getElementById(
-      'audio_user_music'
-    ) as HTMLAudioElement;
+    this.audioUserMusicElem = document.getElementById('audio_user_music') as HTMLAudioElement;
     this.audioElem1 = document.getElementById('audio_1') as HTMLAudioElement;
     this.audioElem2 = document.getElementById('audio_2') as HTMLAudioElement;
 
@@ -51,7 +42,7 @@ export class AudioPlayerComponent implements OnDestroy, OnInit {
 
     this.playPodcastSub = this.playPodcast.subscribe((podcast) => {
       const preloadedAudioElem = document.querySelectorAll(
-        `audio.audio_podcast[src="${podcast.url}"]`
+        `audio.audio_podcast[src="${podcast.url}"]`,
       );
 
       if (preloadedAudioElem.length > 0) {
@@ -69,7 +60,7 @@ export class AudioPlayerComponent implements OnDestroy, OnInit {
     this.audioPlaySub = this.audioPlay.subscribe(() => this.playAudio());
 
     this.preloadPodcastSub = this.preloadPodcastOb.subscribe((podcast) =>
-      this.preloadPodcast(podcast)
+      this.preloadPodcast(podcast),
     );
 
     this.stopAllSoundSub = this.stopAllSound.subscribe(() => {
@@ -124,9 +115,7 @@ export class AudioPlayerComponent implements OnDestroy, OnInit {
   preloadPodcast(podcast: IPodcast): void {
     if (![this.audioElem1.src, this.audioElem2.src].includes(podcast.url)) {
       let audioToPreload =
-        this.audioElemToPlay === this.audioElem1
-          ? this.audioElem2
-          : this.audioElem1;
+        this.audioElemToPlay === this.audioElem1 ? this.audioElem2 : this.audioElem1;
 
       audioToPreload.src = podcast.url;
     }

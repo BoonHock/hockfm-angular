@@ -35,8 +35,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   podcasts: IPodcast[] = [];
 
   init_yt_player = false;
-  ytUrl =
-    'https://www.youtube.com/watch?v=k8A3aQhOfqc&list=RDk8A3aQhOfqc&start_radio=1';
+  ytUrl = 'https://www.youtube.com/watch?v=k8A3aQhOfqc&list=RDk8A3aQhOfqc&start_radio=1';
   currentPodcastIndex = -1;
   isYt_MatTabActive = false;
   currentPlaying: PlayType = PlayType.none;
@@ -65,7 +64,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private el: ElementRef,
     private scrollDispatcher: ScrollDispatcher,
     private cdRef: ChangeDetectorRef,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
   ) {}
 
   @HostListener('document:keypress', ['$event'])
@@ -153,10 +152,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onPlayBtnClicked(): void {
-    if (
-      this.currentPlaying === PlayType.podcast ||
-      this.currentPlaying === PlayType.user_music
-    ) {
+    if (this.currentPlaying === PlayType.podcast || this.currentPlaying === PlayType.user_music) {
       this.audioPlayEmit.emit();
     } else if (this.currentPlaying === PlayType.youtube) {
       this.ytPlayVidEmit.emit();
@@ -184,10 +180,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const currentTryCount = retries ? retries + 1 : 1;
 
     this.postSkipSub = this.podcastService
-      .updatePodcastStatus(
-        this.podcasts[skipPodcastIndex].podcastId,
-        PodcastStatus.skipped
-      )
+      .updatePodcastStatus(this.podcasts[skipPodcastIndex].podcastId, PodcastStatus.skipped)
       .subscribe({
         next: (result) => {
           if (result === 'OK') {
@@ -196,13 +189,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           if (currentTryCount > 10) {
-            console.log(
-              `Failed to set skip for podcast: ${err}. Max retries reached.`
-            );
+            console.log(`Failed to set skip for podcast: ${err}. Max retries reached.`);
           } else {
-            console.log(
-              `Failed to set skip for podcast: ${err}. Will retry again now.`
-            );
+            console.log(`Failed to set skip for podcast: ${err}. Will retry again now.`);
             this.setSkipPodcast(skipPodcastIndex, currentTryCount);
           }
         },
@@ -211,10 +200,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onResetBtnClicked(podcastIndex: number): void {
     this.postResetSub = this.podcastService
-      .updatePodcastStatus(
-        this.podcasts[podcastIndex].podcastId,
-        PodcastStatus.none
-      )
+      .updatePodcastStatus(this.podcasts[podcastIndex].podcastId, PodcastStatus.none)
       .subscribe({
         next: (result) => {
           if (result === 'OK') {
@@ -259,7 +245,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onScrollToPodcastClicked(): void {
     let currentPodcastElem = document.querySelector(
-      `[data-url="${this.podcasts[this.currentPodcastIndex].url}"]`
+      `[data-url="${this.podcasts[this.currentPodcastIndex].url}"]`,
     );
     const tmp = this.scrollDispatcher.getAncestorScrollContainers(this.el);
 
@@ -269,9 +255,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     const matDrawer = tmp[0];
     const podcastPosition =
-      matDrawer.measureScrollOffset('top') +
-      currentPodcastElem.getBoundingClientRect().top -
-      50; // additional 50px margin from top
+      matDrawer.measureScrollOffset('top') + currentPodcastElem.getBoundingClientRect().top - 50; // additional 50px margin from top
 
     matDrawer.scrollTo({ top: podcastPosition, behavior: 'smooth' });
   }
@@ -282,42 +266,31 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.isLoadingPodcast = true;
 
     const lastPodcastId: number | undefined =
-      this.podcasts.length > 0
-        ? this.podcasts[this.podcasts.length - 1].podcastId
-        : undefined;
+      this.podcasts.length > 0 ? this.podcasts[this.podcasts.length - 1].podcastId : undefined;
 
-    this.sub = this.podcastService
-      .getPodcastsToListen(lastPodcastId)
-      .subscribe({
-        next: (podcasts) => {
-          this.isLoadingPodcast = false;
-          if (podcasts.length === 0) {
-            this.noMorePodcast = true;
-          } else {
-            this.podcasts = this.podcasts.concat(podcasts);
-          }
-          this.cdRef.detectChanges();
-          if (callback) {
-            callback();
-          }
-        },
-        error: (err) => {
-          if (currentTryCount >= 10) {
-            console.error(
-              `Failed to get podcasts: ${err}. Max retries reached.`
-            );
-            this.snackBar.open(
-              'Failed to get podcasts. Max retries reached.',
-              'Close'
-            );
-          } else {
-            console.error(
-              `Failed to get podcasts: ${err}. Will retry again now.`
-            );
-            this.loadMorePodcast(callback, currentTryCount);
-          }
-        },
-      });
+    this.sub = this.podcastService.getPodcastsToListen(lastPodcastId).subscribe({
+      next: (podcasts) => {
+        this.isLoadingPodcast = false;
+        if (podcasts.length === 0) {
+          this.noMorePodcast = true;
+        } else {
+          this.podcasts = this.podcasts.concat(podcasts);
+        }
+        this.cdRef.detectChanges();
+        if (callback) {
+          callback();
+        }
+      },
+      error: (err) => {
+        if (currentTryCount >= 10) {
+          console.error(`Failed to get podcasts: ${err}. Max retries reached.`);
+          this.snackBar.open('Failed to get podcasts. Max retries reached.', 'Close');
+        } else {
+          console.error(`Failed to get podcasts: ${err}. Will retry again now.`);
+          this.loadMorePodcast(callback, currentTryCount);
+        }
+      },
+    });
     this.cdRef.detectChanges();
   }
 
@@ -361,10 +334,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     if (this.isYt_MatTabActive) {
       this.playYoutube();
-    } else if (
-      this.uploadedSongs === undefined ||
-      this.uploadedSongs.length === 0
-    ) {
+    } else if (this.uploadedSongs === undefined || this.uploadedSongs.length === 0) {
       this.playPodcast();
     } else {
       this.playRandomUserMusic();
@@ -449,11 +419,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private preloadPodcast(): void {
     let nextIndex = this.getNextUnlistenedPodcastIndex();
 
-    if (
-      nextIndex === 0 &&
-      this.currentPodcastIndex >= 0 &&
-      !this.noMorePodcast
-    ) {
+    if (nextIndex === 0 && this.currentPodcastIndex >= 0 && !this.noMorePodcast) {
       this.loadMorePodcast(() => {
         this.preloadPodcast();
       });
@@ -465,22 +431,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private setPodcastListened(podcastIndex: number): void {
-    console.log(
-      `setting podcast listened: ${this.podcasts[podcastIndex].title}`
-    );
+    console.log(`setting podcast listened: ${this.podcasts[podcastIndex].title}`);
 
     this.postListenedSub = this.podcastService
-      .updatePodcastStatus(
-        this.podcasts[podcastIndex].podcastId,
-        PodcastStatus.listened
-      )
+      .updatePodcastStatus(this.podcasts[podcastIndex].podcastId, PodcastStatus.listened)
       .subscribe({
         next: (result) => {
           if (result === 'OK') {
             this.podcasts[podcastIndex].status = PodcastStatus.listened;
           } else {
             console.log(
-              `Failed to set listened for podcast ${podcastIndex}: ${result}. Will retry again in ${this.retryMilisInterval} millis.`
+              `Failed to set listened for podcast ${podcastIndex}: ${result}. Will retry again in ${this.retryMilisInterval} millis.`,
             );
 
             window.setTimeout(() => {
@@ -490,7 +451,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         },
         error: (err) => {
           console.log(
-            `Failed to set listened for podcast ${podcastIndex}: ${err}. Will retry again in ${this.retryMilisInterval} millis.`
+            `Failed to set listened for podcast ${podcastIndex}: ${err}. Will retry again in ${this.retryMilisInterval} millis.`,
           );
           window.setTimeout(() => {
             this.setPodcastListened(podcastIndex);
