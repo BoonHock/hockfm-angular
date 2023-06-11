@@ -2,3 +2,4 @@
 .gitkeep
 *.ico
 .browserslistrc
+src/assets/*

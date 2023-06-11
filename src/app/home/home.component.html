@@ -1,9 +1,7 @@
 <div class="container full-window-height">
   <div class="row">
     <div class="col-12">
-      <h1>
-        Why listen to someone else's shit when you can listen to your own shit?
-      </h1>
+      <h1>Why listen to someone else's shit when you can listen to your own shit?</h1>
     </div>
   </div>
   <div class="row mb-2">
@@ -18,9 +16,7 @@
           <div class="p-3">
             <div class="row">
               <div class="col-12">
-                <label class="btn btn-warning text-white" for="file_input"
-                  >Upload your music</label
-                >
+                <label class="btn btn-warning text-white" for="file_input">Upload your music</label>
                 <input
                   type="file"
                   id="file_input"
@@ -29,11 +25,7 @@
                   hidden
                   (change)="onFileInputChange($event)"
                 />
-                <p
-                  *ngIf="
-                    uploadedSongs !== undefined && uploadedSongs.length > 0
-                  "
-                >
+                <p *ngIf="uploadedSongs !== undefined && uploadedSongs.length > 0">
                   {{ uploadedSongs.length }} songs uploaded
                 </p>
               </div>
@@ -58,8 +50,7 @@
             <div class="form">
               <div class="row">
                 <div class="col-lg-2 col-12">
-                  <label for="youtube_playlist_input">Youtube playlist:</label
-                  >&nbsp;&nbsp;
+                  <label for="youtube_playlist_input">Youtube playlist:</label>&nbsp;&nbsp;
                 </div>
                 <div class="col-lg-10 col-12">
                   <input
@@ -72,11 +63,7 @@
               </div>
               <div class="row">
                 <div class="col-12">
-                  <button
-                    class="btn btn-success my-1"
-                    type="button"
-                    (click)="onYtStartBtnClick()"
-                  >
+                  <button class="btn btn-success my-1" type="button" (click)="onYtStartBtnClick()">
                     Start
                   </button>
                 </div>
@@ -118,16 +105,13 @@
               *ngFor="let podcast of podcasts; let podcastIndex = index"
               [ngClass]="{
                 'bg-warning':
-                  currentPlaying === playType.podcast &&
-                  currentPodcastIndex === podcastIndex,
+                  currentPlaying === playType.podcast && currentPodcastIndex === podcastIndex,
                 listened:
                   podcast.status === podcastStatus.listened &&
-                  (currentPodcastIndex !== podcastIndex ||
-                    currentPlaying !== playType.podcast),
+                  (currentPodcastIndex !== podcastIndex || currentPlaying !== playType.podcast),
                 skipped:
                   podcast.status === podcastStatus.skipped &&
-                  (currentPodcastIndex !== podcastIndex ||
-                    currentPlaying !== playType.podcast)
+                  (currentPodcastIndex !== podcastIndex || currentPlaying !== playType.podcast)
               }"
               [attr.data-url]="podcast.url"
             >
@@ -146,11 +130,7 @@
               </td>
               <td>{{ podcast.date | convertDbDate }}</td>
               <td>
-                <span
-                  class="action-icon"
-                  (click)="onRowPlayBtnClicked(podcastIndex)"
-                  title="play"
-                >
+                <span class="action-icon" (click)="onRowPlayBtnClicked(podcastIndex)" title="play">
                   <mat-icon>play_circle</mat-icon>
                 </span>
                 <span
@@ -188,21 +168,14 @@
   <div class="row">
     <div class="col-12">
       Icons made by
-      <a href="https://www.flaticon.com/authors/freepik" title="Freepik"
-        >Freepik</a
-      >
+      <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a>
       from
       <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com</a>
     </div>
   </div>
 </div>
 <div class="mat-fab-container" *ngIf="currentPodcastIndex > -1">
-  <button
-    class="mat-fab"
-    mat-fab
-    color="warn"
-    (click)="onScrollToPodcastClicked()"
-  >
+  <button class="mat-fab" mat-fab color="warn" (click)="onScrollToPodcastClicked()">
     <mat-icon>play_for_work</mat-icon>
   </button>
 </div>
