@@ -40,6 +40,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   isYt_MatTabActive = false;
   currentPlaying: PlayType = PlayType.none;
   isLoadingPodcast = false;
+  test: string[] = [];
 
   podcastStatus: typeof PodcastStatus = PodcastStatus;
   playType: typeof PlayType = PlayType;
