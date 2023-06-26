@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   private isYtPlayerCreated = false;
   private noMorePodcast = false;
 
-  private readonly retryMilisInterval = 30000;
+  private readonly retryMilisInterval = 5000;
 
   constructor(
     private podcastService: PodcastsService,
