@@ -58,9 +58,7 @@ export class PodcastsService {
   }
 
   loadNewChannelsToDb(): Observable<string> {
-    return this.http
-      .get<string>(environment.loadNewChannelsUrl)
-      .pipe(catchError(this.handleError));
+    return this.http.get<string>(environment.loadNewChannelsUrl).pipe(catchError(this.handleError));
   }
 
   loadNewPlaylistsToDb(): Observable<string> {
