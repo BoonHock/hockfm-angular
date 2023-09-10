@@ -472,11 +472,11 @@ export class HomeComponent implements OnInit, OnDestroy {
         console.error('error in loading channels to db', res);
         return;
       }
-      // res = await firstValueFrom(this.podcastService.loadNewPlaylistsToDb());
+      res = await firstValueFrom(this.podcastService.loadNewPlaylistsToDb());
 
-      // if (['OK', 'no new playlists'].includes(res)) {
-      //   await firstValueFrom(this.podcastService.loadNewPodcastsToDb());
-      // }
+      if (['OK', 'no new playlists'].includes(res)) {
+        await firstValueFrom(this.podcastService.loadNewPodcastsToDb());
+      }
     } catch (error) {
       console.log(`Failed to load new podcasts to db: ${error}`);
     }
