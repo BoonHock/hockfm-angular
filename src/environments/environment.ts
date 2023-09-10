@@ -7,6 +7,9 @@ export const environment = {
   port: port,
   production: false,
   serverUrl: `http://localhost:${port}`,
+  loadNewChannelsUrl: `http://localhost/req/trigger-nestjs-channel.php`,
+  loadNewPlaylistsUrl: `http://localhost/req/trigger-nestjs-playlist.php`,
+  loadNewPodcastsUrl: `http://localhost/req/trigger-nestjs-podcast.php`,
 };
 
 /*
