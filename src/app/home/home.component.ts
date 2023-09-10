@@ -9,7 +9,7 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subscription } from 'rxjs';
+import { Subscription, firstValueFrom } from 'rxjs';
 import { IPodcast } from '../podcasts/podcast';
 import { PodcastsService } from '../podcasts/podcast.service';
 import { PlayType } from '../shared/enum/play-type';
@@ -270,6 +270,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.sub = this.podcastService.getPodcastsToListen(lastPodcastId).subscribe({
       next: (podcasts) => {
+        if (!lastPodcastId) {
+          // attempt to load if first load page
+          this.loadNewPodcastsToDb(); // no need wait for this to finish
+        }
         this.isLoadingPodcast = false;
         if (podcasts.length === 0) {
           this.noMorePodcast = true;
@@ -458,5 +462,23 @@ export class HomeComponent implements OnInit, OnDestroy {
           }, this.retryMilisInterval);
         },
       });
+  }
+
+  private async loadNewPodcastsToDb() {
+    try {
+      let res = await firstValueFrom(this.podcastService.loadNewChannelsToDb());
+
+      if (!['OK', 'no new channels'].includes(res)) {
+        console.error('error in loading channels to db', res);
+        return;
+      }
+      // res = await firstValueFrom(this.podcastService.loadNewPlaylistsToDb());
+
+      // if (['OK', 'no new playlists'].includes(res)) {
+      //   await firstValueFrom(this.podcastService.loadNewPodcastsToDb());
+      // }
+    } catch (error) {
+      console.log(`Failed to load new podcasts to db: ${error}`);
+    }
   }
 }

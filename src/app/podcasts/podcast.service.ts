@@ -57,6 +57,20 @@ export class PodcastsService {
       .pipe(catchError(this.handleError));
   }
 
+  loadNewChannelsToDb(): Observable<string> {
+    return this.http.get<string>(environment.loadNewChannelsUrl).pipe(catchError(this.handleError));
+  }
+
+  loadNewPlaylistsToDb(): Observable<string> {
+    return this.http
+      .get<string>(environment.loadNewPlaylistsUrl)
+      .pipe(catchError(this.handleError));
+  }
+
+  loadNewPodcastsToDb(): Observable<string> {
+    return this.http.get<string>(environment.loadNewPodcastsUrl).pipe(catchError(this.handleError));
+  }
+
   private handleError(err: HttpErrorResponse) {
     let errorMessage = '';
 
