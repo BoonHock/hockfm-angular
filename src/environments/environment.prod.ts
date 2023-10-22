@@ -1,7 +1,7 @@
 export const environment = {
   production: true,
   serverUrl: `https://hockfmnestjs.azurewebsites.net`,
-  loadNewChannelsUrl: `https://hockfm.000webhostapp.com/req/trigger-nestjs-channel.php`,
-  loadNewPlaylistsUrl: `https://hockfm.000webhostapp.com/req/trigger-nestjs-playlist.php`,
-  loadNewPodcastsUrl: `https://hockfm.000webhostapp.com/req/trigger-nestjs-podcast.php`,
+  getNewChannelsUrl: `https://hockfm.000webhostapp.com/req/get-new-channels.php`,
+  getNewPlaylistsUrl: `https://hockfm.000webhostapp.com/req/get-new-playlists.php`,
+  getNewPodcastsUrl: `https://hockfm.000webhostapp.com/req/get-new-podcasts.php`,
 };

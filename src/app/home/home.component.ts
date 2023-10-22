@@ -466,16 +466,23 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private async loadNewPodcastsToDb() {
     try {
-      let res = await firstValueFrom(this.podcastService.loadNewChannelsToDb());
+      const latestChannelId = await firstValueFrom(this.podcastService.getLatestChannelId());
+      const channels = await firstValueFrom(this.podcastService.getNewChannels(latestChannelId));
 
-      if (!['OK', 'no new channels'].includes(res)) {
-        console.error('error in loading channels to db', res);
-        return;
+      if (channels.length > 0) {
+        firstValueFrom(this.podcastService.addNewChannelsToDb(channels));
       }
-      res = await firstValueFrom(this.podcastService.loadNewPlaylistsToDb());
 
-      if (['OK', 'no new playlists'].includes(res)) {
-        await firstValueFrom(this.podcastService.loadNewPodcastsToDb());
+      const latestPlaylistId = await firstValueFrom(this.podcastService.getLatestPlaylistId());
+      const playlists = await firstValueFrom(this.podcastService.getNewPlaylists(latestPlaylistId));
+      if (playlists.length > 0) {
+        firstValueFrom(this.podcastService.addNewPlaylistsToDb(playlists));
+      }
+
+      const latestPodcastId = await firstValueFrom(this.podcastService.getLatestPodcastId());
+      const podcasts = await firstValueFrom(this.podcastService.getNewPodcasts(latestPodcastId));
+      if (podcasts.length > 0) {
+        firstValueFrom(this.podcastService.addNewPodcastsToDb(podcasts));
       }
     } catch (error) {
       console.log(`Failed to load new podcasts to db: ${error}`);
