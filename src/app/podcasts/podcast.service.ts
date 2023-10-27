@@ -17,7 +17,7 @@ export class PodcastsService {
    * @loadMore is the last podcast id in the loaded podcasts
    * since they are arrange from latest to earliest, so will load earlier podcasts
    *  */
-  getPodcastsToListen(loadMore?: number): Observable<IPodcast[]> {
+  getPodcastsToListen(loadMore: string): Observable<IPodcast[]> {
     return this.http.get<IPodcast[]>(`${this.serverUrl}/podcasts?load_more=${loadMore}`).pipe(
       map((data) => {
         return data.map((podcast) => {
@@ -117,6 +117,27 @@ export class PodcastsService {
         headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
         responseType: 'text',
       })
+      .pipe(catchError(this.handleError));
+  }
+
+  getUnprocessedRunTokens(): Observable<string[]> {
+    return this.http
+      .get<string[]>(`${environment.getUnprocessedRunTokens}`)
+      .pipe(catchError(this.handleError));
+  }
+
+  loadParsehubToDB(runToken: string) {
+    return this.http
+      .post<{ status: string; data: any }>(
+        `${this.serverUrl}/webhook/loadParsehubToDB?runToken=${runToken}`,
+        {},
+      )
+      .pipe(catchError(this.handleError));
+  }
+
+  setTokenProcessed(runToken: string) {
+    return this.http
+      .get(`${environment.setTokenProcessed}?token=${runToken}`, {})
       .pipe(catchError(this.handleError));
   }
 
