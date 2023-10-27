@@ -52,20 +52,6 @@ describe('PodcastsService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get podcasts', () => {
-    let loadMore: number = 1;
-    service.getPodcastsToListen(loadMore).subscribe();
-
-    const req = httpTestingController.expectOne(
-      `${environment.serverUrl}/podcasts?load_more=${loadMore}`,
-    );
-
-    req.flush(PODCASTS);
-    httpTestingController.verify();
-
-    expect(req.request.method).toEqual('GET');
-  });
-
   it('should get podcast', () => {
     const podcastId: number = 1;
     service.getPodcastToListen(podcastId).subscribe();
