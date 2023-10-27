@@ -265,14 +265,14 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     this.isLoadingPodcast = true;
 
-    const lastPodcastId: number | undefined =
-      this.podcasts.length > 0 ? this.podcasts[this.podcasts.length - 1].podcastId : undefined;
+    const lastPodcastDate: string =
+      this.podcasts.length > 0 ? this.podcasts[this.podcasts.length - 1].date : '';
 
-    this.sub = this.podcastService.getPodcastsToListen(lastPodcastId).subscribe({
+    this.sub = this.podcastService.getPodcastsToListen(lastPodcastDate).subscribe({
       next: (podcasts) => {
-        if (!lastPodcastId) {
-          // attempt to load if first load page
-          this.loadNewPodcastsToDb(); // no need wait for this to finish
+        if (!lastPodcastDate) {
+          // process parsehub token only if first load page
+          this.processParsehub();
         }
         this.isLoadingPodcast = false;
         if (podcasts.length === 0) {
@@ -464,28 +464,19 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
   }
 
-  private async loadNewPodcastsToDb() {
+  private async processParsehub() {
     try {
-      const latestChannelId = await firstValueFrom(this.podcastService.getLatestChannelId());
-      const channels = await firstValueFrom(this.podcastService.getNewChannels(latestChannelId));
+      const tokens = await firstValueFrom(this.podcastService.getUnprocessedRunTokens());
 
-      if (channels.length > 0) {
-        firstValueFrom(this.podcastService.addNewChannelsToDb(channels));
-      }
-
-      const latestPlaylistId = await firstValueFrom(this.podcastService.getLatestPlaylistId());
-      const playlists = await firstValueFrom(this.podcastService.getNewPlaylists(latestPlaylistId));
-      if (playlists.length > 0) {
-        firstValueFrom(this.podcastService.addNewPlaylistsToDb(playlists));
-      }
-
-      const latestPodcastId = await firstValueFrom(this.podcastService.getLatestPodcastId());
-      const podcasts = await firstValueFrom(this.podcastService.getNewPodcasts(latestPodcastId));
-      if (podcasts.length > 0) {
-        firstValueFrom(this.podcastService.addNewPodcastsToDb(podcasts));
-      }
+      tokens.forEach(async (t) => {
+        const res = await firstValueFrom(this.podcastService.loadParsehubToDB(t));
+        if (res.status === 'OK') {
+          await firstValueFrom(this.podcastService.setTokenProcessed(t));
+        }
+        console.log('processed: ', t, res);
+      });
     } catch (error) {
-      console.log(`Failed to load new podcasts to db: ${error}`);
+      console.log(`Failed to process parsehub: ${error}`);
     }
   }
 }
