@@ -11,7 +11,7 @@ describe('PodcastsService', () => {
   let httpTestingController: HttpTestingController;
   const PODCASTS: IPodcast[] = [
     {
-      podcastId: 1,
+      id: '1',
       title: 'title 1',
       description: 'description 1',
       url: 'https://megaphone-prod.s3.amazonaws.com/podcasts/7cbc96ca-c88a-11ed-8c99-33052ed05da1/episodes/5e2f4872-e4c0-11ed-aa97-53531697a9b4/stripped_41a695913f31c027021fcfa604fa1cb6.mp3',
@@ -25,7 +25,7 @@ describe('PodcastsService', () => {
       },
     },
     {
-      podcastId: 2,
+      id: '2',
       title: 'title 2',
       description: 'description 2',
       url: 'https://megaphone-prod.s3.amazonaws.com/podcasts/64562f00-c83b-11ed-990e-b3403f0d3af8/episodes/f9d96fb8-e4bc-11ed-b9b0-9f1123848c30/stripped_796c21ec80f85c66f24d727b8f80a3ee.mp3',
@@ -53,10 +53,10 @@ describe('PodcastsService', () => {
   });
 
   it('should get podcast', () => {
-    const podcastId: number = 1;
-    service.getPodcastToListen(podcastId).subscribe();
+    const id: string = '1';
+    service.getPodcastToListen(id).subscribe();
 
-    const req = httpTestingController.expectOne(`${environment.serverUrl}/podcasts/${podcastId}`);
+    const req = httpTestingController.expectOne(`${environment.serverUrl}/podcasts/${id}`);
 
     req.flush(PODCASTS[0]);
     httpTestingController.verify();
@@ -65,12 +65,12 @@ describe('PodcastsService', () => {
   });
 
   it('should update podcast status', () => {
-    const podcastId: number = 1;
+    const id: string = '1';
     const status: PodcastStatus = PodcastStatus.listened;
-    service.updatePodcastStatus(podcastId, status).subscribe();
+    service.updatePodcastStatus(id, status).subscribe();
 
     const req = httpTestingController.expectOne(
-      `${environment.serverUrl}/podcasts/${podcastId}/status`,
+      `${environment.serverUrl}/podcasts/${id}/status`,
     );
 
     req.flush({});

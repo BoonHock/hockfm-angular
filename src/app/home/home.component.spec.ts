@@ -53,7 +53,7 @@ describe('HomeComponent', () => {
     'https://megaphone-prod.s3.amazonaws.com/podcasts/7cbc96ca-c88a-11ed-8c99-33052ed05da1/episodes/5e2f4872-e4c0-11ed-aa97-53531697a9b4/stripped_41a695913f31c027021fcfa604fa1cb6.mp3';
   const PODCASTS = [
     {
-      podcastId: 1,
+      id: '1',
       title: 'title 1',
       description: 'description 1',
       url: 'https://megaphone-prod.s3.amazonaws.com/podcasts/7cbc96ca-c88a-11ed-8c99-33052ed05da1/episodes/5e2f4872-e4c0-11ed-aa97-53531697a9b4/stripped_41a695913f31c027021fcfa604fa1cb6.mp3',
@@ -67,7 +67,7 @@ describe('HomeComponent', () => {
       },
     },
     {
-      podcastId: 2,
+      id: '2',
       title: 'title 2',
       description: 'description 2',
       url: 'https://megaphone-prod.s3.amazonaws.com/podcasts/64562f00-c83b-11ed-990e-b3403f0d3af8/episodes/f9d96fb8-e4bc-11ed-b9b0-9f1123848c30/stripped_796c21ec80f85c66f24d727b8f80a3ee.mp3',
@@ -155,7 +155,7 @@ describe('HomeComponent', () => {
         .injector.get(RouterLinkDirectiveStub);
 
       podcastTr[0].query(By.css('a')).triggerEventHandler('click', null);
-      expect(routerLink.navigatedTo).toEqual(['/podcasts', PODCASTS[0].podcastId]);
+      expect(routerLink.navigatedTo).toEqual(['/podcasts', PODCASTS[0].id]);
     });
 
     it('should call onRowPlayBtnClicked with correct podcastIndex', () => {

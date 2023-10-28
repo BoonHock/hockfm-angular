@@ -10,7 +10,7 @@ describe('AudioPlayerComponent', () => {
   let fixture: ComponentFixture<AudioPlayerComponent>;
 
   const PLAY_PODCAST = {
-    podcastId: 1,
+    id: '1',
     title: 'HITZ | Raj Wants To Reset Himself For His Break | HITZ Morning Crew',
     description: 'If you missed the HITZ Morning Crew, listen to them now!',
     url: 'https://megaphone-prod.s3.amazonaws.com/podcasts/64562f00-c83b-11ed-990e-b3403f0d3af8/episodes/77c1a79e-e4bb-11ed-91c1-2b5dd242c58a/stripped_e61d44ac8c2d7d7de19266035d31c238.mp3',
@@ -27,7 +27,7 @@ describe('AudioPlayerComponent', () => {
   const PLAY_USER_MUSIC =
     'https://megaphone-prod.s3.amazonaws.com/podcasts/7cbc96ca-c88a-11ed-8c99-33052ed05da1/episodes/5e2f4872-e4c0-11ed-aa97-53531697a9b4/stripped_41a695913f31c027021fcfa604fa1cb6.mp3';
   const PRELOAD_PODCAST = {
-    podcastId: 1,
+    id: '1',
     title: 'HITZ | Ean Asking For Forgiveness To His Cousin | HITZ Morning Crew',
     description: 'If you missed the HITZ Morning Crew, listen to them now!',
     url: 'https://megaphone-prod.s3.amazonaws.com/podcasts/64562f00-c83b-11ed-990e-b3403f0d3af8/episodes/f9d96fb8-e4bc-11ed-b9b0-9f1123848c30/stripped_796c21ec80f85c66f24d727b8f80a3ee.mp3',
