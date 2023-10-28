@@ -69,9 +69,7 @@ describe('PodcastsService', () => {
     const status: PodcastStatus = PodcastStatus.listened;
     service.updatePodcastStatus(id, status).subscribe();
 
-    const req = httpTestingController.expectOne(
-      `${environment.serverUrl}/podcasts/${id}/status`,
-    );
+    const req = httpTestingController.expectOne(`${environment.serverUrl}/podcasts/${id}/status`);
 
     req.flush({});
     httpTestingController.verify();
