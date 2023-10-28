@@ -180,7 +180,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     const currentTryCount = retries ? retries + 1 : 1;
 
     this.postSkipSub = this.podcastService
-      .updatePodcastStatus(this.podcasts[skipPodcastIndex].podcastId, PodcastStatus.skipped)
+      .updatePodcastStatus(this.podcasts[skipPodcastIndex].id, PodcastStatus.skipped)
       .subscribe({
         next: (result) => {
           if (result === 'OK') {
@@ -200,7 +200,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   onResetBtnClicked(podcastIndex: number): void {
     this.postResetSub = this.podcastService
-      .updatePodcastStatus(this.podcasts[podcastIndex].podcastId, PodcastStatus.none)
+      .updatePodcastStatus(this.podcasts[podcastIndex].id, PodcastStatus.none)
       .subscribe({
         next: (result) => {
           if (result === 'OK') {
@@ -438,7 +438,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     console.log(`setting podcast listened: ${this.podcasts[podcastIndex].title}`);
 
     this.postListenedSub = this.podcastService
-      .updatePodcastStatus(this.podcasts[podcastIndex].podcastId, PodcastStatus.listened)
+      .updatePodcastStatus(this.podcasts[podcastIndex].id, PodcastStatus.listened)
       .subscribe({
         next: (result) => {
           if (result === 'OK') {
