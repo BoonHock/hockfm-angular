@@ -21,17 +21,22 @@ export class PodcastDetailComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.sub = this.podcastService.getPodcastToListen(id).subscribe({
-      next: (podcast) => {
-        if (podcast === null) {
-          // no podcast with specified id. route back to home page
-          this.router.navigate(['']);
-        }
-        this.podcast = podcast;
-      },
-      error: (err) => console.error(err),
-    });
+    const id = this.route.snapshot.paramMap.get('id');
+    if (id) {
+      this.sub = this.podcastService.getPodcastToListen(id).subscribe({
+        next: (podcast) => {
+          if (podcast === null) {
+            // no podcast with specified id. route back to home page
+            this.router.navigate(['']);
+          }
+          this.podcast = podcast;
+        },
+        error: (err) => console.error(err),
+      });
+    } else {
+      // no id specified. route back to home page
+      this.router.navigate(['']);
+    }
   }
 
   ngOnDestroy(): void {

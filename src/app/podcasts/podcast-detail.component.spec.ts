@@ -15,7 +15,7 @@ describe('PodcastDetailComponent', () => {
   let mockRouter;
   let PODCASTS = [
     {
-      podcastId: 1,
+      id: '1',
       title: 'title none',
       description: 'description none',
       url: 'https://megaphone-prod.s3.amazonaws.com/podcasts/94081b56-c88a-11ed-8e38-1b845169ba6e/episodes/5aa25130-e4b7-11ed-87e6-ffc03737b938/stripped_06ebb33430fb024742036683600d2f6a.mp3',
@@ -64,7 +64,7 @@ describe('PodcastDetailComponent', () => {
   });
 
   it('should get correct podcast', () => {
-    expect(component.podcast?.podcastId).toEqual(1);
+    expect(component.podcast?.id).toEqual('1');
   });
 
   it('should render podcast title in h2 tag', () => {

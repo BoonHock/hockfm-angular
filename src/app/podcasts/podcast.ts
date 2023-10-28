@@ -1,7 +1,7 @@
 import { PodcastStatus } from '../shared/enum/podcast-status';
 
 export interface IPodcast {
-  podcastId: number;
+  id: string;
   title: string;
   description: string;
   url: string;
