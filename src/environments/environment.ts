@@ -7,9 +7,6 @@ export const environment = {
   port: port,
   production: false,
   serverUrl: `http://localhost:${port}`,
-  getNewChannelsUrl: `http://localhost/req/get-new-channels.php`,
-  getNewPlaylistsUrl: `http://localhost/req/get-new-playlists.php`,
-  getNewPodcastsUrl: `http://localhost/req/get-new-podcasts.php`,
   getUnprocessedRunTokens: `http://localhost/req/get-unprocessed-run-tokens.php`,
   setTokenProcessed: `http://localhost/req/set-token-processed.php`,
 };
