@@ -267,7 +267,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     const lastPodcastDate: string =
       this.podcasts.length > 0 ? this.podcasts[this.podcasts.length - 1].date : '';
-    
+
     this.sub = this.podcastService.getPodcastsToListen(lastPodcastDate).subscribe({
       next: (podcasts) => {
         this.isLoadingPodcast = false;
