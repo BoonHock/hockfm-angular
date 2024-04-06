@@ -267,13 +267,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     const lastPodcastDate: string =
       this.podcasts.length > 0 ? this.podcasts[this.podcasts.length - 1].date : '';
-
+    
     this.sub = this.podcastService.getPodcastsToListen(lastPodcastDate).subscribe({
       next: (podcasts) => {
-        if (!lastPodcastDate) {
-          // process parsehub token only if first load page
-          this.processParsehub();
-        }
         this.isLoadingPodcast = false;
         if (podcasts.length === 0) {
           this.noMorePodcast = true;
@@ -462,21 +458,5 @@ export class HomeComponent implements OnInit, OnDestroy {
           }, this.retryMilisInterval);
         },
       });
-  }
-
-  private async processParsehub() {
-    try {
-      const tokens = await firstValueFrom(this.podcastService.getUnprocessedRunTokens());
-
-      tokens.forEach(async (t) => {
-        const res = await firstValueFrom(this.podcastService.loadParsehubToDB(t));
-        if (res.status === 'OK') {
-          await firstValueFrom(this.podcastService.setTokenProcessed(t));
-        }
-        console.log('processed: ', t, res);
-      });
-    } catch (error) {
-      console.log(`Failed to process parsehub: ${error}`);
-    }
   }
 }

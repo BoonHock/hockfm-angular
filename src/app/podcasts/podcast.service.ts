@@ -57,27 +57,6 @@ export class PodcastsService {
       .pipe(catchError(this.handleError));
   }
 
-  getUnprocessedRunTokens(): Observable<string[]> {
-    return this.http
-      .get<string[]>(`${environment.getUnprocessedRunTokens}`)
-      .pipe(catchError(this.handleError));
-  }
-
-  loadParsehubToDB(runToken: string) {
-    return this.http
-      .post<{ status: string; data: any }>(
-        `${this.serverUrl}/webhook/loadParsehubToDB?runToken=${runToken}`,
-        {},
-      )
-      .pipe(catchError(this.handleError));
-  }
-
-  setTokenProcessed(runToken: string) {
-    return this.http
-      .get(`${environment.setTokenProcessed}?token=${runToken}`, {})
-      .pipe(catchError(this.handleError));
-  }
-
   private handleError(err: HttpErrorResponse) {
     let errorMessage = '';
 
@@ -90,7 +69,4 @@ export class PodcastsService {
     console.error(errorMessage);
     return throwError(() => errorMessage);
   }
-  // private utf8_decode(text: string): string {
-  //   return decodeURIComponent(text);
-  // }
 }

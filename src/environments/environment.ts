@@ -7,8 +7,6 @@ export const environment = {
   port: port,
   production: false,
   serverUrl: `http://localhost:${port}`,
-  getUnprocessedRunTokens: `http://localhost/req/get-unprocessed-run-tokens.php`,
-  setTokenProcessed: `http://localhost/req/set-token-processed.php`,
 };
 
 /*
