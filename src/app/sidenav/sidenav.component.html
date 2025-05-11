@@ -11,8 +11,35 @@
     <div class="sidenav">
       <mat-nav-list>
         <a mat-list-item routerLink="/" (click)="onLinkClick()">Home</a>
-        <a mat-list-item routerLink="/subscription" (click)="onLinkClick()">Subscription</a>
+        <a *ngIf="isLoggedIn" mat-list-item routerLink="/subscription" (click)="onLinkClick()"
+          >Subscription</a
+        >
       </mat-nav-list>
+      <div class="p-2">
+        <ng-container *ngIf="!isLoggedIn; else logOutBtn">
+          <div
+            id="g_id_onload"
+            [attr.data-client_id]="googleClientId"
+            data-context="signin"
+            data-ux_mode="popup"
+            data-login_uri="http://localhost:3000/auth/login"
+            data-auto_prompt="false"
+          ></div>
+          <div
+            class="g_id_signin"
+            data-type="standard"
+            data-shape="rectangular"
+            data-theme="outline"
+            data-text="signin_with"
+            data-size="large"
+            data-logo_alignment="left"
+          ></div>
+        </ng-container>
+        <ng-template #logOutBtn>
+          <p class="pt-3">Hi, {{ user?.firstName }}</p>
+          <button mat-raised-button *ngIf="isLoggedIn" (click)="onSignOutClick()">Sign out</button>
+        </ng-template>
+      </div>
       <!-- <mat-list role="list">
         <mat-list-item role="listitem"><a routerLink="" (click)="onLinkClick()">Home</a></mat-list-item>
         <mat-list-item role="listitem"><a routerLink="/subscription" (click)="onLinkClick()">Subscription</a>

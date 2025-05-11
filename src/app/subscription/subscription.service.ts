@@ -4,51 +4,48 @@ import { catchError, map, Observable, tap, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { ISubscription } from './subscription';
 import { ISubscriptionGrouped } from './subscription-grouped';
+import { AuthService } from '../services/auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SubscriptionService {
   private serverUrl = environment.serverUrl;
-  // private getUrl = environment.getSubscriptionUrl;
-  // private postUrl = environment.postPodcastUrl;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   getSubscriptions(): Observable<ISubscriptionGrouped[]> {
-    // const requestOptions: Object = {
-    //   /* other options here */
-    //   responseType: 'text'
-    // }
-    return this.http.get<ISubscription[]>(`${this.serverUrl}/subscription`).pipe(
-      map((data) => {
-        data.map((sub) => {
-          sub.b_is_subscribed = sub.is_subscribed == 1;
-          return sub;
-        });
-        const subGrouped = data.reduce<ISubscriptionGrouped[]>((grouped, currVal) => {
-          const channelGrouped = grouped.find((obj) => {
-            return obj.channel_name === currVal.channel_name;
+    return this.http
+      .get<ISubscription[]>(`${this.serverUrl}/subscription`, {
+        headers: {
+          Authorization: `Bearer ${this.authService.getToken()}`,
+        },
+      })
+      .pipe(
+        map((data) => {
+          data.map((sub) => {
+            sub.b_is_subscribed = sub.is_subscribed == 1;
+            return sub;
           });
-          if (channelGrouped === undefined) {
-            grouped.push({
-              channel: currVal.channel,
-              channel_name: currVal.channel_name,
-              playlists: [currVal],
-              // is_fully_subscribed() {
-              //   return this.playlists.find(p => p.b_is_subscribed === false) === undefined;
-              // }
+          const subGrouped = data.reduce<ISubscriptionGrouped[]>((grouped, currVal) => {
+            const channelGrouped = grouped.find((obj) => {
+              return obj.channel_name === currVal.channel_name;
             });
-          } else {
-            channelGrouped.playlists.push(currVal);
-          }
-          return grouped;
-        }, []);
-        return subGrouped;
-      }),
-      // tap(data => console.log(data)),
-      catchError(this.handleError),
-    );
+            if (channelGrouped === undefined) {
+              grouped.push({
+                channel: currVal.channel,
+                channel_name: currVal.channel_name,
+                playlists: [currVal],
+              });
+            } else {
+              channelGrouped.playlists.push(currVal);
+            }
+            return grouped;
+          }, []);
+          return subGrouped;
+        }),
+        catchError(this.handleError),
+      );
   }
 
   subscribePlaylists(subscriptionGrouped: ISubscriptionGrouped[]): Observable<any> {
@@ -64,6 +61,7 @@ export class SubscriptionService {
 
     let HTTPOptions: Object = {
       headers: new HttpHeaders({
+        Authorization: `Bearer ${this.authService.getToken()}`,
         'Content-Type': 'application/json',
       }),
       responseType: 'text',

@@ -7,6 +7,7 @@ export const environment = {
   port: port,
   production: false,
   serverUrl: `http://localhost:${port}`,
+  googleClientId: '',
 };
 
 /*

@@ -9,11 +9,12 @@ import {
   OnInit,
 } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Subscription, firstValueFrom } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { IPodcast } from '../podcasts/podcast';
 import { PodcastsService } from '../podcasts/podcast.service';
 import { PlayType } from '../shared/enum/play-type';
 import { PodcastStatus } from '../shared/enum/podcast-status';
+import { AuthService } from '../services/auth.service';
 
 @Component({
   selector: 'hfm-home',
@@ -44,6 +45,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   podcastStatus: typeof PodcastStatus = PodcastStatus;
   playType: typeof PlayType = PlayType;
   uploadedSongs?: FileList;
+  isUserLoggedIn = false;
 
   private sub!: Subscription;
   private subLoadMore!: Subscription;
@@ -65,6 +67,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private scrollDispatcher: ScrollDispatcher,
     private cdRef: ChangeDetectorRef,
     private snackBar: MatSnackBar,
+    private authService: AuthService,
   ) {}
 
   @HostListener('document:keypress', ['$event'])
@@ -124,6 +127,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.isLoadingPodcast = true;
     this.loadMorePodcast();
     this.detectInfiniteScroll();
+    this.isUserLoggedIn = this.authService.isAuthenticated();
   }
 
   ngOnDestroy(): void {

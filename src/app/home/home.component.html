@@ -20,7 +20,6 @@
                 <input
                   type="file"
                   id="file_input"
-                  accept=".mp3"
                   multiple
                   hidden
                   (change)="onFileInputChange($event)"
@@ -130,25 +129,31 @@
               </td>
               <td>{{ podcast.date | convertDbDate }}</td>
               <td>
-                <span class="action-icon" (click)="onRowPlayBtnClicked(podcastIndex)" title="play">
-                  <mat-icon>play_circle</mat-icon>
-                </span>
-                <span
-                  class="action-icon"
-                  title="reset"
-                  *ngIf="podcast.status === podcastStatus.listened"
-                  (click)="onResetBtnClicked(podcastIndex)"
-                >
-                  <mat-icon>replay_circle_filled</mat-icon>
-                </span>
-                <span
-                  class="action-icon"
-                  title="set listened"
-                  *ngIf="podcast.status !== podcastStatus.listened"
-                  (click)="onRowListenedBtnClick(podcastIndex)"
-                >
-                  <mat-icon>check_circle</mat-icon>
-                </span>
+                <ng-container *ngIf="isUserLoggedIn">
+                  <span
+                    class="action-icon"
+                    (click)="onRowPlayBtnClicked(podcastIndex)"
+                    title="play"
+                  >
+                    <mat-icon>play_circle</mat-icon>
+                  </span>
+                  <span
+                    class="action-icon"
+                    title="reset"
+                    *ngIf="podcast.status === podcastStatus.listened"
+                    (click)="onResetBtnClicked(podcastIndex)"
+                  >
+                    <mat-icon>replay_circle_filled</mat-icon>
+                  </span>
+                  <span
+                    class="action-icon"
+                    title="set listened"
+                    *ngIf="podcast.status !== podcastStatus.listened"
+                    (click)="onRowListenedBtnClick(podcastIndex)"
+                  >
+                    <mat-icon>check_circle</mat-icon>
+                  </span>
+                </ng-container>
               </td>
             </tr>
           </tbody>
