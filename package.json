@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve --disable-host-check --poll=2000 --host=0.0.0.0",
+    "prebuild": "ts-node set-env.ts",
     "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
