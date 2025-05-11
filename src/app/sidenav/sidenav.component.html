@@ -22,7 +22,7 @@
             [attr.data-client_id]="googleClientId"
             data-context="signin"
             data-ux_mode="popup"
-            data-login_uri="http://localhost:3000/auth/login"
+            [attr.data-login_uri]="googleDataLoginUrl"
             data-auto_prompt="false"
           ></div>
           <div

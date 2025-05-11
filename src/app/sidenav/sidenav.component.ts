@@ -20,6 +20,7 @@ export class SidenavComponent implements OnInit {
   isLoggedIn: boolean = false;
   user?: IUser;
   googleClientId = environment.googleClientId;
+  googleDataLoginUrl = `${this.googleClientId}${environment.googleDataLoginUrl}`;
 
   constructor(
     private breakpointObserver: BreakpointObserver,

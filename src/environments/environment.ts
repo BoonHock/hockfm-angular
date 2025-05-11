@@ -8,6 +8,7 @@ export const environment = {
   production: false,
   serverUrl: `http://localhost:${port}`,
   googleClientId: '',
+  googleDataLoginUrl: '/auth/login',
 };
 
 /*
