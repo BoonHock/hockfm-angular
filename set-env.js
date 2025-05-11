@@ -1,5 +1,5 @@
 // set-env.ts
-import { writeFileSync } from 'fs';
+const { writeFileSync } = require('fs');
 
 const targetPath = './src/environments/environment.prod.ts';
 const envConfigFile = `
