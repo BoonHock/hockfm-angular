@@ -24,9 +24,7 @@
                   hidden
                   (change)="onFileInputChange($event)"
                 />
-                <p *ngIf="uploadedSongs !== undefined && uploadedSongs.length > 0">
-                  {{ uploadedSongs.length }} songs uploaded
-                </p>
+                <p *ngIf="shuffledSongs.length">{{ shuffledSongs.length }} songs uploaded</p>
               </div>
             </div>
             <div class="row">
@@ -184,16 +182,17 @@
     <mat-icon>play_for_work</mat-icon>
   </button>
 </div>
-<hfm-audio-player
-  class="audio-player"
-  [playPodcast]="audioPlayPodcastEmit"
-  [playUserMusic]="audioPlayUserMusicEmit"
-  [audioPlay]="audioPlayEmit"
-  [stopAllSound]="stopAllSoundEmit"
-  [preloadPodcastOb]="preloadPodcastEmit"
-  (pauseClickedEmit)="onPauseClicked()"
-  (playClickedEmit)="onPlayBtnClicked()"
-  (nextClickedEmit)="onNextClicked()"
-  (audioEndedEmit)="onAudioEnded()"
->
-</hfm-audio-player>
+<div class="audio-player">
+  <hfm-audio-player
+    [playPodcast]="audioPlayPodcastEmit"
+    [playUserMusic]="audioPlayUserMusicEmit"
+    [audioPlay]="audioPlayEmit"
+    [stopAllSound]="stopAllSoundEmit"
+    [preloadPodcastOb]="preloadPodcastEmit"
+    (pauseClickedEmit)="onPauseClicked()"
+    (playClickedEmit)="onPlayBtnClicked()"
+    (nextClickedEmit)="onNextClicked()"
+    (audioEndedEmit)="onAudioEnded()"
+  >
+  </hfm-audio-player>
+</div>

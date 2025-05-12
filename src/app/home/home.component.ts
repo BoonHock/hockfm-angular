@@ -44,7 +44,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   podcastStatus: typeof PodcastStatus = PodcastStatus;
   playType: typeof PlayType = PlayType;
-  uploadedSongs?: FileList;
+  shuffledSongs: File[] = [];
+  currentSongIndex = 0;
   isUserLoggedIn = false;
 
   private sub!: Subscription;
@@ -244,7 +245,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   onFileInputChange(event: any): void {
-    this.uploadedSongs = event.target.files;
+    const files = event.target.files;
+    let filesArray: File[] = Array.from(files);
+    filesArray = filesArray.filter((file) => file.name.endsWith('.mp3'));
+
+    // Shuffle the array using Fisher-Yates algorithm
+    for (let i = filesArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [filesArray[i], filesArray[j]] = [filesArray[j], filesArray[i]];
+    }
+    this.shuffledSongs = filesArray;
   }
 
   onScrollToPodcastClicked(): void {
@@ -338,7 +348,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     if (this.isYt_MatTabActive) {
       this.playYoutube();
-    } else if (this.uploadedSongs === undefined || this.uploadedSongs.length === 0) {
+    } else if (!this.shuffledSongs.length) {
       this.playPodcast();
     } else {
       this.playRandomUserMusic();
@@ -397,27 +407,16 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private getRandomUserMusic(): string {
-    if (!this.uploadedSongs) {
+    if (!this.shuffledSongs.length) {
       // no user music uploaded
       return '';
     }
 
-    const maxFileIndex = this.uploadedSongs.length;
-    let url = '';
-    let musicIndex = 0;
-    let filename = '';
-
-    do {
-      musicIndex = this.generateRandomIndex(maxFileIndex);
-      filename = this.uploadedSongs[musicIndex].name.trim();
-      url = URL.createObjectURL(this.uploadedSongs[musicIndex]);
-    } while (filename.substring(filename.length - 3) !== 'mp3');
-
-    return url;
-  }
-
-  private generateRandomIndex(max: number) {
-    return Math.round(Math.random() * max);
+    const maxFileIndex = this.shuffledSongs.length;
+    if (this.currentSongIndex >= maxFileIndex) {
+      this.currentSongIndex = 0;
+    }
+    return URL.createObjectURL(this.shuffledSongs[this.currentSongIndex]);
   }
 
   private preloadPodcast(): void {
