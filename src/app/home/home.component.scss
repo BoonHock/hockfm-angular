@@ -29,6 +29,10 @@
 }
 
 .audio-player {
+  position: -webkit-sticky;
+  position: -moz-sticky;
+  position: -ms-sticky;
+  position: -o-sticky;
   position: sticky;
   // position: fixed;
   width: 100%;

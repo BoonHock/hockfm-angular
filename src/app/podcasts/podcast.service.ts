@@ -19,15 +19,20 @@ export class PodcastsService {
    * since they are arrange from latest to earliest, so will load earlier podcasts
    *  */
   getPodcastsToListen(loadMore: string): Observable<IPodcast[]> {
+    // prevent caching
+    const headers = new HttpHeaders({
+      'Cache-Control': 'no-cache, no-store, must-revalidate',
+      Pragma: 'no-cache',
+      Expires: '0',
+      ...(this.authService.isAuthenticated()
+        ? {
+            Authorization: `Bearer ${this.authService.getToken()}`,
+          }
+        : {}),
+    });
     return this.http
       .get<IPodcast[]>(`${this.serverUrl}/podcasts?load_more=${loadMore}`, {
-        ...(this.authService.isAuthenticated()
-          ? {
-              headers: {
-                Authorization: `Bearer ${this.authService.getToken()}`,
-              },
-            }
-          : {}),
+        headers,
       })
       .pipe(
         map((data) => {
