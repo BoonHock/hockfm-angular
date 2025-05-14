@@ -416,7 +416,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.currentSongIndex >= maxFileIndex) {
       this.currentSongIndex = 0;
     }
-    return URL.createObjectURL(this.shuffledSongs[this.currentSongIndex]);
+    const musicUrl = URL.createObjectURL(this.shuffledSongs[this.currentSongIndex]);
+    this.currentSongIndex++;
+    return musicUrl;
   }
 
   private preloadPodcast(): void {
