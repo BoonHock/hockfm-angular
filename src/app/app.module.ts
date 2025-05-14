@@ -1,4 +1,4 @@
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -17,6 +17,7 @@ import { ConvertDbDatePipe } from './shared/pipes/convert-db-date.pipe';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -38,7 +39,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     HttpClientModule,
     FormsModule,
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

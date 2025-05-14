@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { PodcastDetailComponent } from './podcasts/podcast-detail.component';
 import { SubscriptionComponent } from './subscription/subscription.component';
-import { AuthGuard } from './guards/auth.guard';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   { path: 'subscription', component: SubscriptionComponent, canActivate: [AuthGuard] },
